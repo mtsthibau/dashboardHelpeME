@@ -1,0 +1,58 @@
+﻿<div ng-app="fourmilkapp" ng-controller="registroCtrl as c">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xf-12 ">
+        <h4 class="text-uppercase">{{c.data.pageTitle}}</h4>
+        <h4>
+            <small ng-show="c.data.registros">Exibindo <strong> {{c.data.registros.length}}</strong> de <strong>{{c.data.registros.length}} </strong></small>
+        </h4>
+    </div>
+    <div class="input-group" ng-hide="c.data.loading">
+        <input type="text" class="form-control boxed rounded-s" placeholder="" ng-model="c.data.search"><span class="input-group-btn">
+            <button class="btn btn-secondary rounded-s" type="submit" ng-click="c.getResponse()">
+                <i class="fa fa-search"></i> BUSCAR
+            </button>
+        </span>
+    </div>
+    <div class="col-lg-12 text-lg-center" ng-show="c.data.loading" style="margin-top:100px">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="table-responsive" ng-hide="c.data.loading">
+        <hr />
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td ng-show="c.data.registros.length>=2" class="col-lg-1 col-xs-1">
+                        <a href="" style="color:#808080">
+                            <strong>INFORMAÇÕES</strong>
+                        </a>
+                    </td>
+                    <td ng-repeat="(key, value) in c.data.registros[1]">
+                        <a href="" ng-click="c.orderBy(key)" style="color:#808080">
+                            <span ng-show="c.data.icon == key" class="fa fa-caret-down"></span>
+                            <strong>{{key | uppercase}}</strong>
+                        </a>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="r in c.data.registros | orderBy:sortType:sortReverse | filter : criterioDeBusca ">
+                    <td>
+                        <button class="btn btn-primary-outline"><span class="fa fa-info"></span> {{value}}</button>
+                    </td>
+                    <td ng-repeat="value in r">
+                        {{value}}                    
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <ul class="pagination pull-right">
+        <li class="page-item" ng-repeat="p in c.data.numeroPaginas">
+            <a href="" class="page-link" ng-click="c.pagination($index + 1)">
+                <h5>{{$index + 1}}</h5>
+            </a>
+        </li>
+    </ul>
+    <br />
+    <br />
+</div>
